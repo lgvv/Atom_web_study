@@ -4,6 +4,13 @@
 <head>
   <title>WEB - javascript</title>
   <meta charset="utf-8">
+
+<style>
+
+
+</style>
+
+
 </head>
   <input type = "button" value="hi" onclick ="alert('hi')">
   <input type = "text" onchange ="alert('changed')"/>
@@ -17,24 +24,46 @@
   document.querySelector('body').style.color='black'
   ">
 
-  <input id="night_day" type = "button" value="day" onclick="
-  if(document.querySelector('#night_day').value === 'night') {
-  document.querySelector('body').style.backgroundColor='white';
-  document.querySelector('body').style.color='black';
-  document.querySelector('#night_day').value = 'day';
+  <input type = "button" value="day" onclick="
+  var target = document.querySelector('body');
+  if(this.value === 'night') {
+  target.style.backgroundColor='white';
+  target.style.color='black';
+  this.value = 'day';
 } else{
-  document.querySelector('body').style.backgroundColor='black';
-  document.querySelector('body').style.color='white';
-  document.querySelector('#night_day').value = 'night';
-}
-  ">
+  target.style.backgroundColor='black';
+  target.style.color='white';
+  this.value = 'night';
+}">
   <h1> 자바 스크립트 연습</h1>
+  <h3><a href = https://www.naver.com target=_blank>네이버로</a></h3>
 
   <script>
     document.write(1+1);
   </script>
   <h1>html</h1>
   1+1
+<p>
+  <input type = "button" value="day" onclick="
+  if(this.value === 'night') {
+  document.querySelector('body').style.backgroundColor='white';
+  document.querySelector('body').style.color='black';
+  this.value = 'day';
+} else{
+  document.querySelector('body').style.backgroundColor='black';
+  document.querySelector('body').style.color='white';
+  this.value = 'night';
+}">
+
+<script>
+var alist = document.querySelectorAll('a');
+var i = 0;
+while(i < alist.length) {
+  alist[i].style.color = 'powerblue';
+  console.log(alist[i]);
+  i = i + 1 ;
+}
+</script>
 
 <body>
 
