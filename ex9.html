@@ -35,8 +35,16 @@
 
     function sum(left,right){
       document.write(left+right+'<br>');
+      return left+right;
     }
+    function sumcolor(left,right){
+      document.write('<div style= "color:red;">'
+        +sum(left,right)+
+        '</div><br>');
+    }
+
     sum(2,3);
+    sumcolor(4,5);
     sum(3,4);
   </script>
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>WEB - 함수</title>
+  <meta charset="utf-8">
+</head>
+<body>
+  <h1>객체</h1>
+  <h2>생성</h2>
+  <script>
+    var coworkers = {
+      "프로그래머" : "lgw",
+      "디자이너" : "ive"
+    }
+
+      document.write("프로그래머 : " + coworkers.프로그래머 + "<br>");
+      document.write("디자이너 : " + coworkers.디자이너 + "<br>");
+      coworkers.bookkeeper = "duru"; // 추가하는 방법
+      document.write("bookkeeper : " + coworkers.bookkeeper + "<br>");
+      coworkers["data scientist"] = "taeho";
+      document.write("data scientist : " + coworkers["data scientist"] + "<br>");
+
+  </script>
+
+  <h2>이터레이트 반복문</h2>
+  <script>
+      for(var key in coworkers){
+        document.write(key+":"+coworkers[key]+"<br>");
+      }
+  </script>
+
+
+
+</body>
+</html>
