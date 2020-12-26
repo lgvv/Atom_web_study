@@ -30,6 +30,16 @@
       }
   </script>
 
+  <h2>객체 프로퍼티와 메소드</h2>
+  <script>
+      coworkers.showAll = function(){
+        for(var key in this){
+          document.write(key+":"+this[key]+"<br>");
+        }
+      }
+      coworkers.showAll()
+  </script>
+
 
 
 </body>
