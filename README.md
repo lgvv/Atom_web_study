@@ -1,6 +1,7 @@
-"#web"
-"#web"
-"#web"
-html
-css
-javascript
+# 생활코딩 HTML5 + CSS + javaScript
+
+
+생활코딩책으로 간단하게 웹공부 
+
+
+개발자가 보기에는 너무나도 간략해서 도움이 안되어서 결국 구글로 다시금 기초를 접하기로 
