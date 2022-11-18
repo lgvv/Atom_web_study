@@ -84,7 +84,6 @@
 		B1EED76629266015004A65BC /* SmartAI */ = {
 			isa = PBXGroup;
 			children = (
-				B1F46DDD2927C08D009C7C9B /* Fonts */,
 				B1EED76729266015004A65BC /* AppDelegate.swift */,
 				B1EED76929266015004A65BC /* SceneDelegate.swift */,
 				B1EED78929267594004A65BC /* Camera */,
@@ -97,6 +96,7 @@
 		B1EED78829267586004A65BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B1F46DDD2927C08D009C7C9B /* Fonts */,
 				B1EED77529266017004A65BC /* Info.plist */,
 				B1EED77029266017004A65BC /* Assets.xcassets */,
 				B1EED77229266017004A65BC /* LaunchScreen.storyboard */,
