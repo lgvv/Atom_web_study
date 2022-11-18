@@ -44,28 +44,23 @@ class CameraViewController: UIViewController {
         sessionQueue.async { [weak self] in
             guard let self else { return }
             
-            self.captureSession.sessionPreset = .photo
-            
-            self.captureSession.beginConfiguration()
-            self.configureDeviceInput()
-            self.configurePhotoOutput()
-            self.captureSession.commitConfiguration()
+            self.configureCaptureSession()
         }
     }
     
     // 디바이스 인풋에 대해서 설정합니다.
-    private func configureDeviceInput() {
-        // builtInWideAngleCamera를 획득
-        
+    private func configureCaptureSession() {
+        captureSession.sessionPreset = .photo
+        captureSession.beginConfiguration()
         
         // ☃️ TODO: - 근데 듀얼 카메라가 없는 디바이스면 어떻게 할까?
         guard let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) else {
             captureSession.commitConfiguration()
-            
             return
         }
         
         do {
+            // NOTE: - Input
             let input = try AVCaptureDeviceInput(device: device)
             photoOutput = AVCapturePhotoOutput()
             
@@ -74,22 +69,23 @@ class CameraViewController: UIViewController {
                 self.deviceInput = input
             } else {
                 captureSession.commitConfiguration()
-                
                 return
             }
+            
+            // NOTE: - Output
+            if captureSession.canAddOutput(photoOutput) {
+                captureSession.addOutput(photoOutput)
+            } else {
+                captureSession.commitConfiguration()
+                return
+            }
+            
         } catch {
             captureSession.commitConfiguration()
             print("🚨 \(error.localizedDescription)")
         }
-    }
-    
-    private func configurePhotoOutput() {
-        if captureSession.canAddOutput(photoOutput) {
-            captureSession.addOutput(photoOutput)
-        } else {
-            captureSession.commitConfiguration()
-            return
-        }
+        
+        captureSession.commitConfiguration()
     }
     
     func setUpLivePreview() {
