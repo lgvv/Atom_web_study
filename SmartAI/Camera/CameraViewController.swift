@@ -16,44 +16,58 @@ class CameraViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     // MARK: - Properties
-    var captureSession: AVCaptureSession!
-    var stillImageOutput: AVCapturePhotoOutput!
-    var previewLayer: AVCaptureVideoPreviewLayer!
+    var captureSession = AVCaptureSession()
+    var deviceInput : AVCaptureDeviceInput!
+    var photoOutput: AVCapturePhotoOutput!
+    var sessionQueue = DispatchQueue(label: "sessionQueue", qos: .userInitiated)
+    var previewLayer: AVCaptureVideoPreviewLayer! // 디스커션 읽어보기
 
     // MARK: - Binding
-    func bind() {
+    private func bind() {
         captureButton.rx.tap
             .bind { _ in self.didTakePhoto() }
             .disposed(by: disposeBag)
     }
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.configureUI()
         self.bind()
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    
+    // MARK: - function
+    private func configureSession() {
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         
-        // AVCaptureSession 인스턴스 생성 및 preset 변경
-        captureSession = AVCaptureSession()
-        captureSession.sessionPreset = .photo
-        
+        sessionQueue.async { [weak self] in
+            guard let self else { return }
+            
+            self.captureSession.sessionPreset = .photo
+            
+            self.configureDeviceInput()
+        }
+    }
+    
+    // 디바이스 인풋에 대해서 설정합니다.
+    private func configureDeviceInput() {
         // builtInWideAngleCamera를 획득
-        guard let backCamera = AVCaptureDevice.default(for: .video) else {
-            print("Fail to call back camera.")
+        self.captureSession.beginConfiguration()
+        
+        guard let device = AVCaptureDevice.default(for: .video) else {
+            self.captureSession.commitConfiguration()
+            
             return
         }
-
+        
         do {
-            let input = try AVCaptureDeviceInput(device: backCamera)
-            stillImageOutput = AVCapturePhotoOutput()
+            let input = try AVCaptureDeviceInput(device: device)
+            photoOutput = AVCapturePhotoOutput()
 
-            if captureSession.canAddInput(input) && captureSession.canAddOutput(stillImageOutput) {
+            if captureSession.canAddInput(input) && captureSession.canAddOutput(photoOutput) {
                 captureSession.addInput(input)
-                captureSession.addOutput(stillImageOutput)
+                captureSession.addOutput(photoOutput)
 
                 setUpLivePreview()
             }
@@ -61,13 +75,7 @@ class CameraViewController: UIViewController {
             print(error.localizedDescription)
         }
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // 세션 정지
-        self.captureSession.stopRunning()
-    }
-
+    
     func setUpLivePreview() {
         // 캡처 비디오를 표시할 레이어
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -94,7 +102,18 @@ class CameraViewController: UIViewController {
 format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         
         // 아래에 AVCapturePhotoCaptureDelegate를 채택
-        stillImageOutput.capturePhoto(with: settings, delegate: self)
+        photoOutput.capturePhoto(with: settings, delegate: self)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureSession()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // 세션 정지
+        self.captureSession.stopRunning()
     }
     
     // MARK: - UIComponents
