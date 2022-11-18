@@ -45,7 +45,6 @@ class CameraViewController: UIViewController {
             guard let self else { return }
             
             self.captureSession.sessionPreset = .photo
-            
             self.configureDeviceInput()
         }
     }
@@ -53,10 +52,11 @@ class CameraViewController: UIViewController {
     // 디바이스 인풋에 대해서 설정합니다.
     private func configureDeviceInput() {
         // builtInWideAngleCamera를 획득
-        self.captureSession.beginConfiguration()
+        captureSession.beginConfiguration()
         
-        guard let device = AVCaptureDevice.default(for: .video) else {
-            self.captureSession.commitConfiguration()
+        // ☃️ TODO: - 근데 듀얼 카메라가 없는 디바이스면 어떻게 할까?
+        guard let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) else {
+            captureSession.commitConfiguration()
             
             return
         }
@@ -64,15 +64,18 @@ class CameraViewController: UIViewController {
         do {
             let input = try AVCaptureDeviceInput(device: device)
             photoOutput = AVCapturePhotoOutput()
-
-            if captureSession.canAddInput(input) && captureSession.canAddOutput(photoOutput) {
+            
+            if captureSession.canAddInput(input) {
                 captureSession.addInput(input)
-                captureSession.addOutput(photoOutput)
-
-                setUpLivePreview()
+                self.deviceInput = input
+            } else {
+                captureSession.commitConfiguration()
+                
+                return
             }
         } catch {
-            print(error.localizedDescription)
+            captureSession.commitConfiguration()
+            print("🚨 \(error.localizedDescription)")
         }
     }
     
