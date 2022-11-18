@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
+// TODO: - ReactorKit 적용 + RxDelegateProxy로 전부 다 묶기
 class CameraViewController: UIViewController {
     let disposeBag = DisposeBag()
     
