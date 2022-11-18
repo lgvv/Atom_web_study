@@ -47,9 +47,8 @@ class CameraViewController: UIViewController {
         previewLayer.connection?.videoOrientation = .portrait
         previewViewLayer.layer.addSublayer(previewLayer)
         
-        // startRunning이 blocking call이므로 GCD 사용
+        // NOTE: - startRunning은 blocking call이라서 main block 되지 않도록 queue로 처리
         sessionQueue.async { [weak self] in
-            // 세션 시작
             guard let self else { return }
             self.captureSession.startRunning()
             
@@ -62,7 +61,7 @@ class CameraViewController: UIViewController {
         }
     }
     
-    // 디바이스 인풋에 대해서 설정합니다.
+    // captureSession에 대해서 설정합니다.
     private func configureCaptureSession() {
         captureSession.sessionPreset = .photo
         captureSession.beginConfiguration()
