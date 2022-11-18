@@ -19,28 +19,30 @@ class CameraViewController: UIViewController {
     var captureSession = AVCaptureSession()
     var deviceInput : AVCaptureDeviceInput!
     var photoOutput: AVCapturePhotoOutput!
-    var sessionQueue = DispatchQueue(label: "sessionQueue")
+    var sessionQueue = DispatchQueue(label: "sessionQueue", qos: .userInitiated)
     var previewLayer: AVCaptureVideoPreviewLayer! // 디스커션 읽어보기
 
     // MARK: - Binding
     private func bind() {
+        self.rx.viewDidLoad
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.configurePreviewLayer()
+                owner.configureUI()
+            }.disposed(by: disposeBag)
+        
+        self.rx.viewWillDisappear
+            .withUnretained(self)
+            .bind { owner, _ in owner.captureSession.stopRunning() }
+            .disposed(by: disposeBag)
+        
         captureButton.rx.tap
             .bind { _ in self.didTakePhoto() }
             .disposed(by: disposeBag)
     }
-    
-    // MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.configureSession()
-        self.configureUI()
-        self.bind()
-        
-    }
-    
+
     // MARK: - function
-    private func configureSession() {
+    private func configurePreviewLayer() {
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
 
         previewLayer.videoGravity = .resizeAspectFill
@@ -100,7 +102,7 @@ class CameraViewController: UIViewController {
         
         captureSession.commitConfiguration()
     }
-
+    
     func didTakePhoto() {
         // 호출될 때 마다 다른 세팅을 주어야 하기 때문에 메서드 안에서 생성
         let settings = AVCapturePhotoSettings(
@@ -109,11 +111,16 @@ format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         // 아래에 AVCapturePhotoCaptureDelegate를 채택
         photoOutput.capturePhoto(with: settings, delegate: self)
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // 세션 정지
-        self.captureSession.stopRunning()
+    
+    // MARK: - initialize
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        self.bind()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - UIComponents

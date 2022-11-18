@@ -17,6 +17,7 @@
 		B1EED78429267548004A65BC /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B1EED78329267548004A65BC /* RxSwift */; };
 		B1EED7872926756F004A65BC /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = B1EED7862926756F004A65BC /* ReactorKit */; };
 		B1F46DD729279C9D009C7C9B /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F46DD629279C9D009C7C9B /* CameraViewController.swift */; };
+		B1F46DD92927BA38009C7C9B /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F46DD82927BA38009C7C9B /* UIViewController+Rx.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		B1EED77329266017004A65BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B1EED77529266017004A65BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1F46DD629279C9D009C7C9B /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		B1F46DD82927BA38009C7C9B /* UIViewController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				B1EED76729266015004A65BC /* AppDelegate.swift */,
 				B1EED76929266015004A65BC /* SceneDelegate.swift */,
 				B1EED78929267594004A65BC /* Camera */,
+				B1F46DDA2927BA42009C7C9B /* Extension */,
 				B1EED78829267586004A65BC /* Supporting Files */,
 			);
 			path = SmartAI;
@@ -88,6 +91,14 @@
 				B1F46DD629279C9D009C7C9B /* CameraViewController.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		B1F46DDA2927BA42009C7C9B /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B1F46DD82927BA38009C7C9B /* UIViewController+Rx.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,6 +185,7 @@
 			files = (
 				B1EED76829266015004A65BC /* AppDelegate.swift in Sources */,
 				B1F46DD729279C9D009C7C9B /* CameraViewController.swift in Sources */,
+				B1F46DD92927BA38009C7C9B /* UIViewController+Rx.swift in Sources */,
 				B1EED76A29266015004A65BC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
