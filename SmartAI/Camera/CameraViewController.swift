@@ -126,9 +126,17 @@ format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
     
     // MARK: - UIComponents
     var previewViewLayer = UIView()
-    var captureButton: UIButton = {
-        $0.setTitle("버튼", for: .normal)
+    lazy var captureButton: UIButton = {
+        let text = "🤖 분석 시작하기 🤖"
         
+        //내가 적용하고싶은 폰트 사이즈
+        let fontSize = UIFont.pretendardFont(size: 16, style: .semiBold)
+        //label에 있는 Text를 NSMutableAttributedString으로 만들어준다.
+        let attributedStr = NSMutableAttributedString(string: text)
+        attributedStr.addAttribute(.font, value: fontSize, range: (text as NSString).range(of: text))
+        
+        $0.setAttributedTitle(attributedStr, for: .normal)
+        $0.setTitleColor(.green, for: .normal)
         return $0
     }(UIButton())
 }
