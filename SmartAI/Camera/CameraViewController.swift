@@ -19,7 +19,7 @@ class CameraViewController: UIViewController {
     var captureSession = AVCaptureSession()
     var deviceInput : AVCaptureDeviceInput!
     var photoOutput: AVCapturePhotoOutput!
-    var sessionQueue = DispatchQueue(label: "sessionQueue", qos: .userInitiated)
+    var sessionQueue = DispatchQueue(label: "sessionQueue")
     var previewLayer: AVCaptureVideoPreviewLayer! // 디스커션 읽어보기
 
     // MARK: - Binding
@@ -33,16 +33,30 @@ class CameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configureSession()
         self.configureUI()
         self.bind()
+        
     }
     
     // MARK: - function
     private func configureSession() {
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+
+        previewLayer.videoGravity = .resizeAspectFill
+        previewLayer.connection?.videoOrientation = .portrait
+        previewViewLayer.layer.addSublayer(previewLayer)
         
+        // startRunning이 blocking call이므로 GCD 사용
         sessionQueue.async { [weak self] in
+            // 세션 시작
             guard let self else { return }
+            self.captureSession.startRunning()
+            
+            // UI 변경을 위해 main queue 접근
+            DispatchQueue.main.async {
+                self.previewLayer.frame = self.previewViewLayer.bounds
+            }
             
             self.configureCaptureSession()
         }
@@ -54,7 +68,7 @@ class CameraViewController: UIViewController {
         captureSession.beginConfiguration()
         
         // ☃️ TODO: - 근데 듀얼 카메라가 없는 디바이스면 어떻게 할까?
-        guard let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) else {
+        guard let device = AVCaptureDevice.default(for: .video) else {
             captureSession.commitConfiguration()
             return
         }
@@ -87,26 +101,6 @@ class CameraViewController: UIViewController {
         
         captureSession.commitConfiguration()
     }
-    
-    func setUpLivePreview() {
-        // 캡처 비디오를 표시할 레이어
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-
-        previewLayer.videoGravity = .resizeAspectFill
-        previewLayer.connection?.videoOrientation = .portrait
-        previewViewLayer.layer.addSublayer(previewLayer)
-        
-        // startRunning이 blocking call이므로 GCD 사용
-        DispatchQueue.global(qos: .userInitiated).async {
-            // 세션 시작
-            self.captureSession.startRunning()
-            
-            // UI 변경을 위해 main queue 접근
-            DispatchQueue.main.async {
-                self.previewLayer.frame = self.previewViewLayer.bounds
-            }
-        }
-    }
 
     func didTakePhoto() {
         // 호출될 때 마다 다른 세팅을 주어야 하기 때문에 메서드 안에서 생성
@@ -115,11 +109,6 @@ format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         
         // 아래에 AVCapturePhotoCaptureDelegate를 채택
         photoOutput.capturePhoto(with: settings, delegate: self)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        configureSession()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
