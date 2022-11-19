@@ -53,6 +53,7 @@ class ResultViewController: UIViewController {
                 }
                 
                 print("🍕 \(descriptions.joined(separator: "\n"))")
+                self.resultLabel.text = descriptions.joined(separator: "\n")
             }
         }
     }
