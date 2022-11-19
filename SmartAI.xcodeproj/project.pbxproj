@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B1C106DE2928CAA3009BF573 /* BananaClassification.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = B1C106DD2928CAA3009BF573 /* BananaClassification.mlmodel */; };
+		B1C106E12928D416009BF573 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C106E02928D416009BF573 /* UIViewController+.swift */; };
 		B1EED76829266015004A65BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EED76729266015004A65BC /* AppDelegate.swift */; };
 		B1EED76A29266015004A65BC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EED76929266015004A65BC /* SceneDelegate.swift */; };
 		B1EED77129266017004A65BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1EED77029266017004A65BC /* Assets.xcassets */; };
@@ -27,9 +29,12 @@
 		B1F46DF32927C0CA009C7C9B /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = B1F46DEB2927C0C9009C7C9B /* Pretendard-Thin.otf */; };
 		B1F46DF42927C0CA009C7C9B /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B1F46DEC2927C0CA009C7C9B /* Pretendard-Light.otf */; };
 		B1F46DF52927C0CA009C7C9B /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B1F46DED2927C0CA009C7C9B /* Pretendard-Bold.otf */; };
+		B1F46DFC2927C62E009C7C9B /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F46DFB2927C62E009C7C9B /* ResultViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B1C106DD2928CAA3009BF573 /* BananaClassification.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = BananaClassification.mlmodel; sourceTree = "<group>"; };
+		B1C106E02928D416009BF573 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		B1EED76429266015004A65BC /* SmartAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1EED76729266015004A65BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1EED76929266015004A65BC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +52,7 @@
 		B1F46DEB2927C0C9009C7C9B /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		B1F46DEC2927C0CA009C7C9B /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		B1F46DED2927C0CA009C7C9B /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		B1F46DFB2927C62E009C7C9B /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B1C106DF2928CAAD009BF573 /* MLModels */ = {
+			isa = PBXGroup;
+			children = (
+				B1C106DD2928CAA3009BF573 /* BananaClassification.mlmodel */,
+			);
+			path = MLModels;
+			sourceTree = "<group>";
+		};
 		B1EED75B29266015004A65BC = {
 			isa = PBXGroup;
 			children = (
@@ -86,7 +100,7 @@
 			children = (
 				B1EED76729266015004A65BC /* AppDelegate.swift */,
 				B1EED76929266015004A65BC /* SceneDelegate.swift */,
-				B1EED78929267594004A65BC /* Camera */,
+				B1EED78929267594004A65BC /* Scene */,
 				B1F46DDA2927BA42009C7C9B /* Extension */,
 				B1EED78829267586004A65BC /* Supporting Files */,
 			);
@@ -96,6 +110,7 @@
 		B1EED78829267586004A65BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B1C106DF2928CAAD009BF573 /* MLModels */,
 				B1F46DDD2927C08D009C7C9B /* Fonts */,
 				B1EED77529266017004A65BC /* Info.plist */,
 				B1EED77029266017004A65BC /* Assets.xcassets */,
@@ -104,17 +119,19 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B1EED78929267594004A65BC /* Camera */ = {
+		B1EED78929267594004A65BC /* Scene */ = {
 			isa = PBXGroup;
 			children = (
 				B1F46DD629279C9D009C7C9B /* CameraViewController.swift */,
+				B1F46DFB2927C62E009C7C9B /* ResultViewController.swift */,
 			);
-			path = Camera;
+			path = Scene;
 			sourceTree = "<group>";
 		};
 		B1F46DDA2927BA42009C7C9B /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				B1C106E02928D416009BF573 /* UIViewController+.swift */,
 				B1F46DD82927BA38009C7C9B /* UIViewController+Rx.swift */,
 				B1F46DDB2927BE16009C7C9B /* UIFont+.swift */,
 			);
@@ -226,11 +243,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1C106E12928D416009BF573 /* UIViewController+.swift in Sources */,
 				B1EED76829266015004A65BC /* AppDelegate.swift in Sources */,
 				B1F46DD729279C9D009C7C9B /* CameraViewController.swift in Sources */,
 				B1F46DD92927BA38009C7C9B /* UIViewController+Rx.swift in Sources */,
 				B1F46DDC2927BE16009C7C9B /* UIFont+.swift in Sources */,
 				B1EED76A29266015004A65BC /* SceneDelegate.swift in Sources */,
+				B1C106DE2928CAA3009BF573 /* BananaClassification.mlmodel in Sources */,
+				B1F46DFC2927C62E009C7C9B /* ResultViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

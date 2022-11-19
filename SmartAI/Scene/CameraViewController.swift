@@ -11,6 +11,7 @@ import Photos
 import RxSwift
 import RxCocoa
 import SnapKit
+import Lottie
 
 // TODO: - ReactorKit 적용 + RxDelegateProxy로 전부 다 묶기
 class CameraViewController: UIViewController {
@@ -25,6 +26,7 @@ class CameraViewController: UIViewController {
 
     // MARK: - Binding
     private func bind() {
+        
         self.rx.viewDidLoad
             .withUnretained(self)
             .bind { owner, _ in
@@ -38,7 +40,9 @@ class CameraViewController: UIViewController {
             .disposed(by: disposeBag)
         
         captureButton.rx.tap
-            .bind { _ in self.didTakePhoto() }
+            .bind { _ in
+                self.showResultViewController()
+            }
             .disposed(by: disposeBag)
     }
 
@@ -100,7 +104,6 @@ class CameraViewController: UIViewController {
             captureSession.commitConfiguration()
             print("🚨 \(error.localizedDescription)")
         }
-        
         captureSession.commitConfiguration()
     }
     
@@ -130,7 +133,7 @@ format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         let text = "🤖 분석 시작하기 🤖"
         
         //내가 적용하고싶은 폰트 사이즈
-        let fontSize = UIFont.pretendardFont(size: 16, style: .semiBold)
+        let fontSize = UIFont.pretendardFont(size: 22, style: .semiBold)
         //label에 있는 Text를 NSMutableAttributedString으로 만들어준다.
         let attributedStr = NSMutableAttributedString(string: text)
         attributedStr.addAttribute(.font, value: fontSize, range: (text as NSString).range(of: text))
@@ -151,7 +154,7 @@ extension CameraViewController {
         view.addSubview(captureButton)
         captureButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().inset(100)
-            $0.leading.trailing.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
     }
 }
