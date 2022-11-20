@@ -17,7 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         window?.backgroundColor = .systemBackground
-        window?.rootViewController = UINavigationController(rootViewController: CameraViewController())
+        
+        let navigationCotroller = UINavigationController()
+        window?.rootViewController = navigationCotroller
+        
+        let coordinator = AppCoordinator(navigationController: navigationCotroller)
+        coordinator.start()
+        
         window?.makeKeyAndVisible()
     }
     
