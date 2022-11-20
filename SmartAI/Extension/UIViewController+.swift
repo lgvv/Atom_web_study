@@ -8,8 +8,10 @@
 import UIKit
 
 extension UIViewController {
-    func showResultViewController() {
+    func showResultViewController(image: UIImage) {
         let vc = ResultViewController()
+        vc.image = image
+        
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
         }

@@ -41,7 +41,7 @@ class CameraViewController: UIViewController {
         
         captureButton.rx.tap
             .bind { _ in
-                self.showResultViewController()
+                self.didTakePhoto()
             }
             .disposed(by: disposeBag)
     }
@@ -163,7 +163,11 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
-        let image = UIImage(data: imageData)
-        print(image)
+        
+        
+        if let image = UIImage(data: imageData) {
+            print(image)
+            self.showResultViewController(image: image)
+        }
     }
 }

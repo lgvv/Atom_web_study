@@ -13,7 +13,12 @@ import Vision
 
 class ResultViewController: UIViewController {
     // MARK: - Properties
-    var image: UIImage?
+    var image: UIImage? {
+        didSet {
+            guard let image else { return }
+            self.updateClassifications(for: image)
+        }
+    }
     private lazy var coreMLRequest: VNCoreMLRequest = {
         do {
             let model = try VNCoreMLModel(for: BananaClassification().model)
@@ -34,7 +39,7 @@ class ResultViewController: UIViewController {
     }()
     
     // MARK: - function
-    func processClassifications(for request: VNRequest, error: Error?) {
+    private func processClassifications(for request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
             guard let results = request.results else {
                 print("🚨 \(error?.localizedDescription)")
@@ -58,16 +63,36 @@ class ResultViewController: UIViewController {
         }
     }
     
+    private func updateClassifications(for image: UIImage) {
+        
+        let orientation = CGImagePropertyOrientation(image.imageOrientation)
+        guard let ciImage = CIImage(image: image) else {
+            print("🚨 \(#function)")
+            return
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
+            
+            do {
+                try handler.perform([self.coreMLRequest])
+            } catch {
+                print("🚨 \(error.localizedDescription)")
+            }
+        }
+    }
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .red
+        view.backgroundColor = .white
         configureUI()
     }
     
     // MARK: - UIComponents
     lazy var resultLabel: UILabel = {
+        $0.textColor = .black
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .pretendardFont(size: 22, style: .medium)
