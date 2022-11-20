@@ -6,17 +6,24 @@
 //
 
 import UIKit
-import CoreML
-
-import SnapKit
 import Vision
+import SnapKit
 
-class ResultViewController: UIViewController {
+protocol ResultViewControllerProtocol {
+    func didTapImageView()
+}
+
+class ResultViewController: UIViewController, ResultViewControllerProtocol {
+    
+    var delegate: ResultViewControllerProtocol?
+    
     // MARK: - Properties
     var image: UIImage? {
         didSet {
+            print("이미지 세팅이 완료되었어요.")
             guard let image else { return }
             self.updateClassifications(for: image)
+            self.resultImageView.image = image
         }
     }
     private lazy var coreMLRequest: VNCoreMLRequest = {
@@ -34,7 +41,7 @@ class ResultViewController: UIViewController {
             request.imageCropAndScaleOption = .centerCrop
             return request
         } catch {
-            fatalError("🚨 \(error.localizedDescription)")
+            fatalError("🚨 ->\(error.localizedDescription)")
         }
     }()
     
@@ -82,6 +89,10 @@ class ResultViewController: UIViewController {
         }
     }
     
+    func didTapImageView() {
+        print("didTapImageView")
+    }
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,7 +101,15 @@ class ResultViewController: UIViewController {
         configureUI()
     }
     
+    deinit { print("- \(type(of: self)) deinit") }
+    
     // MARK: - UIComponents
+    lazy var resultImageView: UIImageView = {
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        return $0
+    }(UIImageView())
+    
     lazy var resultLabel: UILabel = {
         $0.textColor = .black
         $0.numberOfLines = 0
@@ -103,6 +122,12 @@ class ResultViewController: UIViewController {
 
 extension ResultViewController {
     func configureUI() {
+        view.addSubview(resultImageView)
+        resultImageView.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview().inset(20)
+            $0.height.equalTo(view.frame.width - 40)
+        }
+        
         view.addSubview(resultLabel)
         resultLabel.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(50)

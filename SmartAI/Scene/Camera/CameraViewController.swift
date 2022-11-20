@@ -13,9 +13,14 @@ import RxCocoa
 import SnapKit
 import Lottie
 
+protocol CameraViewControllerProtocol {
+    func didTapCaptureButton(for image: UIImage)
+}
+
 // TODO: - ReactorKit 적용 + RxDelegateProxy로 전부 다 묶기
 class CameraViewController: UIViewController {
     let disposeBag = DisposeBag()
+    var delegate: CameraViewControllerProtocol? // 5. 딜리게이트 선언
     
     // MARK: - Properties
     var captureSession = AVCaptureSession()
@@ -167,7 +172,8 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         
         if let image = UIImage(data: imageData) {
             print(image)
-            self.showResultViewController(image: image)
+//            self.showResultViewController(image: image)image
+            self.delegate?.didTapCaptureButton(for: image)
         }
     }
 }
