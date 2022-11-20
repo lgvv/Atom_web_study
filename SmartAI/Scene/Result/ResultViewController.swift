@@ -14,13 +14,11 @@ protocol ResultViewControllerProtocol {
 }
 
 class ResultViewController: UIViewController, ResultViewControllerProtocol {
-    
     var delegate: ResultViewControllerProtocol?
     
     // MARK: - Properties
     var image: UIImage? {
         didSet {
-            print("이미지 세팅이 완료되었어요.")
             guard let image else { return }
             self.updateClassifications(for: image)
             self.resultImageView.image = image
@@ -41,7 +39,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
             request.imageCropAndScaleOption = .centerCrop
             return request
         } catch {
-            fatalError("🚨 ->\(error.localizedDescription)")
+            fatalError("🚨 \(error.localizedDescription)")
         }
     }()
     
@@ -54,18 +52,20 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
             }
             
             let classifications = results as! [VNClassificationObservation]
-        
+            
             if classifications.isEmpty {
                 print("🚨 결과를 추출했지만 비어있어요.")
             } else {
-                let topClassifications = classifications.prefix(2)
-                let descriptions = topClassifications.map { classification in
-                    
-                   return String(format: "  (%.2f) %@", classification.confidence, classification.identifier)
+                let classifications = classifications.prefix(4)
+                let descriptions = classifications.map { classification in
+                    return String(format: "  (%.2f) %@", classification.confidence, classification.identifier)
                 }
                 
-                print("🍕 \(descriptions.joined(separator: "\n"))")
                 self.resultLabel.text = descriptions.joined(separator: "\n")
+                self.answerLabel.text = classifications.prefix(1)
+                    .map { classification in
+                        return String(format: "%@", classification.identifier)
+                    }.joined()
             }
         }
     }
@@ -101,8 +101,6 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         configureUI()
     }
     
-    deinit { print("- \(type(of: self)) deinit") }
-    
     // MARK: - UIComponents
     lazy var resultImageView: UIImageView = {
         $0.layer.cornerRadius = 12
@@ -110,9 +108,17 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         return $0
     }(UIImageView())
     
+    lazy var answerLabel: UILabel = {
+        $0.textColor = .green
+        $0.numberOfLines = 0
+        $0.textAlignment = .center
+        $0.font = .pretendardFont(size: 16, style: .regular)
+        
+        return $0
+    }(UILabel())
+    
     lazy var resultLabel: UILabel = {
         $0.textColor = .black
-        $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .pretendardFont(size: 22, style: .medium)
         
@@ -128,9 +134,16 @@ extension ResultViewController {
             $0.height.equalTo(view.frame.width - 40)
         }
         
+        resultImageView.addSubview(answerLabel)
+        answerLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
         view.addSubview(resultLabel)
         resultLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(50)
+            $0.top.equalTo(view.snp.centerY).inset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }

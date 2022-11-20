@@ -42,7 +42,6 @@ class AppCoordinator: Coordinator, CameraCoordinatorDelegate {
             sheet.detents = [.medium(), .large()]
         }
         navigationController.present(vc, animated: true)
-//        self.present(vc, animated: true)
     }
     
     // MARK: - CameraCoordinatorDelegate

@@ -17,10 +17,10 @@ protocol CameraViewControllerProtocol {
     func didTapCaptureButton(for image: UIImage)
 }
 
-// TODO: - ReactorKit 적용 + RxDelegateProxy로 전부 다 묶기
+// ☃️ TODO: - ReactorKit 적용 + RxDelegateProxy로 전부 다 묶기
 class CameraViewController: UIViewController {
     let disposeBag = DisposeBag()
-    var delegate: CameraViewControllerProtocol? // 5. 딜리게이트 선언
+    var delegate: CameraViewControllerProtocol?
     
     // MARK: - Properties
     var captureSession = AVCaptureSession()
@@ -45,9 +45,8 @@ class CameraViewController: UIViewController {
             .disposed(by: disposeBag)
         
         captureButton.rx.tap
-            .bind { _ in
-                self.didTakePhoto()
-            }
+            .withUnretained(self)
+            .bind { owner, _ in self.didTakePhoto() }
             .disposed(by: disposeBag)
     }
 
@@ -64,7 +63,6 @@ class CameraViewController: UIViewController {
             guard let self else { return }
             self.captureSession.startRunning()
             
-            // UI 변경을 위해 main queue 접근
             DispatchQueue.main.async {
                 self.previewLayer.frame = self.previewViewLayer.bounds
             }
@@ -85,7 +83,7 @@ class CameraViewController: UIViewController {
         }
         
         do {
-            // NOTE: - Input
+            // MARK: - Input
             let input = try AVCaptureDeviceInput(device: device)
             photoOutput = AVCapturePhotoOutput()
             
@@ -97,7 +95,7 @@ class CameraViewController: UIViewController {
                 return
             }
             
-            // NOTE: - Output
+            // MARK: - Output
             if captureSession.canAddOutput(photoOutput) {
                 captureSession.addOutput(photoOutput)
             } else {
@@ -113,11 +111,8 @@ class CameraViewController: UIViewController {
     }
     
     func didTakePhoto() {
-        // 호출될 때 마다 다른 세팅을 주어야 하기 때문에 메서드 안에서 생성
-        let settings = AVCapturePhotoSettings(
-format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         
-        // 아래에 AVCapturePhotoCaptureDelegate를 채택
         photoOutput.capturePhoto(with: settings, delegate: self)
     }
     
@@ -137,13 +132,11 @@ format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
     lazy var captureButton: UIButton = {
         let text = "🤖 분석 시작하기 🤖"
         
-        //내가 적용하고싶은 폰트 사이즈
         let fontSize = UIFont.pretendardFont(size: 22, style: .semiBold)
-        //label에 있는 Text를 NSMutableAttributedString으로 만들어준다.
-        let attributedStr = NSMutableAttributedString(string: text)
-        attributedStr.addAttribute(.font, value: fontSize, range: (text as NSString).range(of: text))
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(.font, value: fontSize, range: (text as NSString).range(of: text))
         
-        $0.setAttributedTitle(attributedStr, for: .normal)
+        $0.setAttributedTitle(attributedString, for: .normal)
         $0.setTitleColor(.green, for: .normal)
         return $0
     }(UIButton())
@@ -169,10 +162,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
         
-        
         if let image = UIImage(data: imageData) {
-            print(image)
-//            self.showResultViewController(image: image)image
             self.delegate?.didTapCaptureButton(for: image)
         }
     }
