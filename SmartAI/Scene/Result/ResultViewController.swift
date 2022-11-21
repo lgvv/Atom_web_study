@@ -18,8 +18,28 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     
     // MARK: - Properties
     var image: UIImage? {
+        // NOTE: - MVVM 리팩토링 고민. 할게 너무 많아요 근데 ㅠㅠ
         didSet {
             guard let image else { return }
+            // NOTE: - 서버에서 결과가 내려오는데 시간이 오래걸림 (테스트 결과 적어도 5초 이상)
+            if NetworkMonitor.shared.isConnected {
+                APIManager.shared.uploadImage(for: image) { result in
+                    switch result {
+                    case .success(let banana):
+                        self.answerLabel.text = banana.bananaClasses[banana.argmax]
+                        var resultText: String = ""
+                        banana.bananaClasses.forEach { key, value in
+                            if let probability = banana.probability[key] {
+                                resultText += String(format: "  (%.2f) %@", probability, value)
+                            }
+                        }
+                        dump("☃️ \(resultText)")
+                    case .failure(let error):
+                        break
+                    }
+                }
+            }
+            
             self.updateClassifications(for: image)
             self.resultImageView.image = image
         }
@@ -57,6 +77,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                 print("🚨 결과를 추출했지만 비어있어요.")
             } else {
                 let classifications = classifications.prefix(4)
+                dump("💕classifications \(classifications)")
                 let descriptions = classifications.map { classification in
                     return String(format: "  (%.2f) %@", classification.confidence, classification.identifier)
                 }
@@ -110,7 +131,6 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     
     lazy var answerLabel: UILabel = {
         $0.textColor = .green
-        $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .pretendardFont(size: 16, style: .regular)
         
@@ -120,6 +140,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     lazy var resultLabel: UILabel = {
         $0.textColor = .black
         $0.textAlignment = .center
+        $0.numberOfLines = 0
         $0.font = .pretendardFont(size: 22, style: .medium)
         
         return $0

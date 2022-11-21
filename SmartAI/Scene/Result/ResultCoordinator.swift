@@ -30,7 +30,6 @@ class ResultCoordinator: Coordinator, ResultViewControllerProtocol {
     
     // MARK: - ResultViewControllerProtocol
     func didTapImageView() {
-        print("이미지를 선택했네요.")
         self.delegate?.didSelectedImage(self)
     }
     

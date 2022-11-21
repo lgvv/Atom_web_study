@@ -15,6 +15,7 @@ protocol Coordinator: AnyObject {
 
 // 2. 앱 코디네이터를 생성합니다.
 class AppCoordinator: Coordinator, CameraCoordinatorDelegate {
+    
     var childCoordinators: [Coordinator] = []
     private var navigationController: UINavigationController!
     
@@ -41,6 +42,7 @@ class AppCoordinator: Coordinator, CameraCoordinatorDelegate {
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
         }
+        
         navigationController.present(vc, animated: true)
     }
     
