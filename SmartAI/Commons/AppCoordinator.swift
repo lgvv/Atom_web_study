@@ -41,6 +41,7 @@ class AppCoordinator: Coordinator, CameraCoordinatorDelegate {
         
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
+            sheet.delegate = vc 
         }
         
         navigationController.present(vc, animated: true)

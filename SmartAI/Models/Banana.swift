@@ -9,10 +9,10 @@ import Foundation
 
 // MARK: - User
 struct Banana: Codable {
-    let imgName: String
-    let bananaClasses: [Int: String]
-    let probability: [Int: Float]
-    let argmax: Int
+    /** 이미지 이름*/ let imgName: String
+    /** 바나나 클래스*/ let bananaClasses: [Int: String]
+    /** 확률 정보*/ let probability: [Int: Float]
+    /** 가장 높은 확률의 바나나*/ let argmax: Int
 
     enum CodingKeys: String, CodingKey {
         case imgName = "img_name"
@@ -20,6 +20,8 @@ struct Banana: Codable {
         case probability = "Probability"
         case argmax
     }
+    
+    let uuid = UUID().uuidString
 }
 
 

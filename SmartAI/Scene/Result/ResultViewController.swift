@@ -8,6 +8,7 @@
 import UIKit
 import Vision
 import SnapKit
+import SwiftUI
 
 protocol ResultViewControllerProtocol {
     func didTapImageView()
@@ -137,6 +138,16 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         return $0
     }(UILabel())
     
+    lazy var chartView: UIView = {
+        let view = UIHostingController(rootView: ChartView()).view ?? UIView()
+        
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 12
+        view.clipsToBounds = true
+        
+        return view
+    }()
+    
     lazy var resultLabel: UILabel = {
         $0.textColor = .black
         $0.textAlignment = .center
@@ -159,12 +170,28 @@ extension ResultViewController {
         answerLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
-        
-        view.addSubview(resultLabel)
-        resultLabel.snp.makeConstraints {
+        let vc = UIHostingController(rootView: ChartView()).view!
+        view.addSubview(vc)
+        vc.snp.makeConstraints {
             $0.top.equalTo(view.snp.centerY).inset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+}
+
+extension ResultViewController: UISheetPresentationControllerDelegate {
+    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
+        guard let type = sheetPresentationController.selectedDetentIdentifier else { return }
+        
+        switch type {
+        case .medium: break
+//            self.chartView.animation(.easeOut, value: 1)
+        case .large: break
+//            self.chartView.animation(.easeIn, value: 1)
+        default: assert(true ,"지원하지 않는 옵션입니다")
+        }
+        
+        print(type == .large ? "large" : "medium")
     }
 }
