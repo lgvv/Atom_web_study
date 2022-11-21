@@ -30,7 +30,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                         var resultText: String = ""
                         banana.bananaClasses.forEach { key, value in
                             if let probability = banana.probability[key] {
-                                resultText += String(format: "  (%.2f) %@", probability, value)
+                                resultText += String(format: "  (%.2f) %@\n", probability, value)
                             }
                         }
                         dump("☃️ \(resultText)")
