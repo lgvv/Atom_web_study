@@ -88,7 +88,6 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                 }
                 dump(" ❄️: \(descriptions)")
 //                self.chartView.temp = descriptions
-                self.chartView.temp = ["1","2","3"]
                 
                 self.resultLabel.text = descriptions.joined(separator: "\n")
                 self.answerLabel.text = classifications.prefix(1)
@@ -171,6 +170,13 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
 
 extension ResultViewController {
     func configureUI() {
+        view.addSubview(chartWrapperView)
+        chartWrapperView.snp.makeConstraints {
+            $0.top.equalTo(view.snp.centerY).inset(40)
+            $0.leading.trailing.equalToSuperview().inset(40)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         view.addSubview(resultImageView)
         resultImageView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview().inset(20)
@@ -180,13 +186,6 @@ extension ResultViewController {
         resultImageView.addSubview(answerLabel)
         answerLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
-        }
-        
-        view.addSubview(chartWrapperView)
-        chartWrapperView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.centerY).inset(40)
-            $0.leading.trailing.equalToSuperview().inset(40)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
