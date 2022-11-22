@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B1C0BA8D292CE7C7009A0DD2 /* ChartInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C0BA8C292CE7C7009A0DD2 /* ChartInfo.swift */; };
 		B1C106DE2928CAA3009BF573 /* BananaClassification.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = B1C106DD2928CAA3009BF573 /* BananaClassification.mlmodel */; };
 		B1C106E12928D416009BF573 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C106E02928D416009BF573 /* UIViewController+.swift */; };
 		B1C55E56292B6294004A0021 /* ServerUrlString.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C55E55292B6294004A0021 /* ServerUrlString.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B1C0BA8C292CE7C7009A0DD2 /* ChartInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInfo.swift; sourceTree = "<group>"; };
 		B1C106DD2928CAA3009BF573 /* BananaClassification.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = BananaClassification.mlmodel; sourceTree = "<group>"; };
 		B1C106E02928D416009BF573 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		B1C55E55292B6294004A0021 /* ServerUrlString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUrlString.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				B1DE4442292A822800B18401 /* Banana.swift */,
+				B1C0BA8C292CE7C7009A0DD2 /* ChartInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			files = (
 				B1C106E12928D416009BF573 /* UIViewController+.swift in Sources */,
 				B1C55E56292B6294004A0021 /* ServerUrlString.swift in Sources */,
+				B1C0BA8D292CE7C7009A0DD2 /* ChartInfo.swift in Sources */,
 				B1DE4432292A0AAB00B18401 /* CGImagePropertyOrientation+.swift in Sources */,
 				B1DE4439292A177400B18401 /* CameraCoordinator.swift in Sources */,
 				B1DE4434292A0CBA00B18401 /* AppCoordinator.swift in Sources */,

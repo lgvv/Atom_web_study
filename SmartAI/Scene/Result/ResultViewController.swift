@@ -17,33 +17,29 @@ protocol ResultViewControllerProtocol {
 class ResultViewController: UIViewController, ResultViewControllerProtocol {
     var delegate: ResultViewControllerProtocol?
     
-    // MARK: - Properties
-    @State var bananas: [String] = [] {
-        didSet { print("🦷 banana \(bananas)") }
-    }
-    
+    @ObservedObject var chartInfo = ChartInfo()
     var image: UIImage? {
         // NOTE: - MVVM 리팩토링 고민. 할게 너무 많아요 근데 ㅠㅠ
         didSet {
             guard let image else { return }
-            // NOTE: - 서버에서 결과가 내려오는데 시간이 오래걸림 (테스트 결과 적어도 5초 이상)
-            if NetworkMonitor.shared.isConnected {
-                APIManager.shared.uploadImage(for: image) { result in
-                    switch result {
-                    case .success(let banana):
-                        self.answerLabel.text = banana.bananaClasses[banana.argmax]
-                        var resultText: String = ""
-                        banana.bananaClasses.forEach { key, value in
-                            if let probability = banana.probability[key] {
-                                resultText += String(format: "  (%.2f) %@\n", probability, value)
-                            }
-                        }
-                        dump("☃️ \(resultText)")
-                    case .failure(let error):
-                        break
-                    }
-                }
-            }
+//            // NOTE: - 서버에서 결과가 내려오는데 시간이 오래걸림 (테스트 결과 적어도 5초 이상)
+//            if NetworkMonitor.shared.isConnected {
+//                APIManager.shared.uploadImage(for: image) { result in
+//                    switch result {
+//                    case .success(let banana):
+//                        self.answerLabel.text = banana.bananaClasses[banana.argmax]
+//                        var resultText: String = ""
+//                        banana.bananaClasses.forEach { key, value in
+//                            if let probability = banana.probability[key] {
+//                                resultText += String(format: "  (%.2f) %@\n", probability, value)
+//                            }
+//                        }
+//                        dump("☃️ \(resultText)")
+//                    case .failure(let error):
+//                        break
+//                    }
+//                }
+//            }
             
             self.updateClassifications(for: image)
             self.resultImageView.image = image
@@ -84,10 +80,14 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                 let classifications = classifications.prefix(4)
                 dump("💕classifications \(classifications)")
                 let descriptions = classifications.map { classification in
-                    return String(format: "  (%.2f) %@", classification.confidence, classification.identifier)
+                    return String(format: "(%.2f) %@", classification.confidence, classification.identifier)
                 }
                 dump(" ❄️: \(descriptions)")
-//                self.chartView.temp = descriptions
+                let infos = descriptions.map { description in
+                    let items = description.split(separator: " ").map { String($0) }
+                    return (items[0], items[1])
+                }
+                self.chartInfo.localData = infos
                 
                 self.resultLabel.text = descriptions.joined(separator: "\n")
                 self.answerLabel.text = classifications.prefix(1)
@@ -144,17 +144,14 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         return $0
     }(UILabel())
     
-    lazy var chartView = ChartView(temp: self.$bananas)
     lazy var chartWrapperView: UIView = {
         let view = UIHostingController(
-            rootView: chartView
+            rootView: ChartView()
         ).view ?? UIView()
-        
+
         view.alpha = 0.0
         view.backgroundColor = .white
-//        view.layer.cornerRadius = 12
-//        view.clipsToBounds = true
-        
+
         return view
     }()
     

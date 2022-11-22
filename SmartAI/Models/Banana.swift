@@ -23,5 +23,3 @@ struct Banana: Codable {
     
     let uuid = UUID().uuidString
 }
-
-

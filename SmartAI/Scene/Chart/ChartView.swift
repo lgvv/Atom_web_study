@@ -41,13 +41,7 @@ let seriesData: [Series] = [
 ]
 
 struct ChartView: View {
-    @Binding var temp: [String] {
-        didSet { print("🫵🏼 \(temp)") }
-    }
-
-    init(temp: Binding<[String]> = .constant([","])) {
-        self._temp = temp
-    }
+    @ObservedObject var chartInfo = ChartInfo()
     
     var body: some View {
         Chart(seriesData) { series in
