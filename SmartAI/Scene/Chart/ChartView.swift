@@ -41,6 +41,11 @@ let seriesData: [Series] = [
 ]
 
 struct ChartView: View {
+    let bananas: [Banana]
+    init(bananas: [Banana]) {
+        self.bananas = bananas
+    }
+    
     var body: some View {
         Chart(seriesData) { series in
             ForEach(series.sales) { element in

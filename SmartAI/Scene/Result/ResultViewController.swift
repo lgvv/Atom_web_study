@@ -139,8 +139,11 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     }(UILabel())
     
     lazy var chartView: UIView = {
-        let view = UIHostingController(rootView: ChartView()).view ?? UIView()
+        let view = UIHostingController(
+            rootView: ChartView(bananas: [])
+        ).view ?? UIView()
         
+        view.alpha = 0.0
         view.backgroundColor = .white
         view.layer.cornerRadius = 12
         view.clipsToBounds = true
@@ -170,9 +173,9 @@ extension ResultViewController {
         answerLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
-        let vc = UIHostingController(rootView: ChartView()).view!
-        view.addSubview(vc)
-        vc.snp.makeConstraints {
+        
+        view.addSubview(chartView)
+        chartView.snp.makeConstraints {
             $0.top.equalTo(view.snp.centerY).inset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -186,9 +189,13 @@ extension ResultViewController: UISheetPresentationControllerDelegate {
         
         switch type {
         case .medium: break
-//            self.chartView.animation(.easeOut, value: 1)
+            UIView.animate(withDuration: 0.3) {
+                self.chartView.alpha = 0.0
+            }
         case .large: break
-//            self.chartView.animation(.easeIn, value: 1)
+            UIView.animate(withDuration: 0.3) {
+                self.chartView.alpha = 1.0
+            }
         default: assert(true ,"지원하지 않는 옵션입니다")
         }
         
