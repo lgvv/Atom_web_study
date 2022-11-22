@@ -18,6 +18,10 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     var delegate: ResultViewControllerProtocol?
     
     // MARK: - Properties
+    @State var bananas: [String] = [] {
+        didSet { print("🦷 banana \(bananas)") }
+    }
+    
     var image: UIImage? {
         // NOTE: - MVVM 리팩토링 고민. 할게 너무 많아요 근데 ㅠㅠ
         didSet {
@@ -82,6 +86,9 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                 let descriptions = classifications.map { classification in
                     return String(format: "  (%.2f) %@", classification.confidence, classification.identifier)
                 }
+                dump(" ❄️: \(descriptions)")
+//                self.chartView.temp = descriptions
+                self.chartView.temp = ["1","2","3"]
                 
                 self.resultLabel.text = descriptions.joined(separator: "\n")
                 self.answerLabel.text = classifications.prefix(1)
@@ -138,15 +145,16 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         return $0
     }(UILabel())
     
-    lazy var chartView: UIView = {
+    lazy var chartView = ChartView(temp: self.$bananas)
+    lazy var chartWrapperView: UIView = {
         let view = UIHostingController(
-            rootView: ChartView(bananas: [])
+            rootView: chartView
         ).view ?? UIView()
         
         view.alpha = 0.0
         view.backgroundColor = .white
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
+//        view.layer.cornerRadius = 12
+//        view.clipsToBounds = true
         
         return view
     }()
@@ -174,10 +182,10 @@ extension ResultViewController {
             $0.center.equalToSuperview()
         }
         
-        view.addSubview(chartView)
-        chartView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.centerY).inset(20)
-            $0.leading.trailing.equalToSuperview().inset(20)
+        view.addSubview(chartWrapperView)
+        chartWrapperView.snp.makeConstraints {
+            $0.top.equalTo(view.snp.centerY).inset(40)
+            $0.leading.trailing.equalToSuperview().inset(40)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -188,13 +196,13 @@ extension ResultViewController: UISheetPresentationControllerDelegate {
         guard let type = sheetPresentationController.selectedDetentIdentifier else { return }
         
         switch type {
-        case .medium: break
+        case .medium:
             UIView.animate(withDuration: 0.3) {
-                self.chartView.alpha = 0.0
+                self.chartWrapperView.alpha = 0.0
             }
-        case .large: break
+        case .large:
             UIView.animate(withDuration: 0.3) {
-                self.chartView.alpha = 1.0
+                self.chartWrapperView.alpha = 1.0
             }
         default: assert(true ,"지원하지 않는 옵션입니다")
         }

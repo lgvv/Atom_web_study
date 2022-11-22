@@ -41,11 +41,13 @@ let seriesData: [Series] = [
 ]
 
 struct ChartView: View {
-    let bananas: [Banana]
-    init(bananas: [Banana]) {
-        self.bananas = bananas
+    @Binding var temp: [String] {
+        didSet { print("🫵🏼 \(temp)") }
     }
-    
+//    
+//    init(temp: Binding<[String]> = .init([])) {
+//        self._temp = temp
+//    }
     var body: some View {
         Chart(seriesData) { series in
             ForEach(series.sales) { element in
