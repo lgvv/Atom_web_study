@@ -29,7 +29,7 @@ class ResultCoordinator: Coordinator, ResultViewControllerProtocol {
     }
     
     // MARK: - ResultViewControllerProtocol
-    func didTapImageView() {
+    func didTapMoreInfoButton() {
         self.delegate?.didSelectedImage(self)
     }
     

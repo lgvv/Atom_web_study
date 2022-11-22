@@ -9,15 +9,17 @@ import UIKit
 import Vision
 import SnapKit
 import SwiftUI
+import RxSwift
+import RxCocoa
 
 protocol ResultViewControllerProtocol {
-    func didTapImageView()
+    func didTapMoreInfoButton()
 }
 
 class ResultViewController: UIViewController, ResultViewControllerProtocol {
+    var disposeBag = DisposeBag()
     var delegate: ResultViewControllerProtocol?
     
-    @ObservedObject var chartInfo = ChartInfo()
     var image: UIImage? {
         // NOTE: - MVVM 리팩토링 고민. 할게 너무 많아요 근데 ㅠㅠ
         didSet {
@@ -64,6 +66,17 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         }
     }()
     
+    // MARK: - Binding
+    func bind() {
+        disposeBag.insert {
+            moreInfoButton.rx.tap
+                .withUnretained(self)
+                .bind { this, _ in
+                    this.didTapMoreInfoButton()
+                }
+        }
+    }
+    
     // MARK: - function
     private func processClassifications(for request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
@@ -87,7 +100,6 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                     let items = description.split(separator: " ").map { String($0) }
                     return ChartItem(bananaClass: items[0], probability: items[0])
                 }
-                self.chartInfo.localData = infos
                 
                 self.resultLabel.text = descriptions.joined(separator: "\n")
                 self.answerLabel.text = classifications.prefix(1)
@@ -99,7 +111,6 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     }
     
     private func updateClassifications(for image: UIImage) {
-        
         let orientation = CGImagePropertyOrientation(image.imageOrientation)
         guard let ciImage = CIImage(image: image) else {
             print("🚨 \(#function)")
@@ -117,8 +128,10 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         }
     }
     
-    func didTapImageView() {
+    func didTapMoreInfoButton() {
         print("didTapImageView")
+        let vc = UIHostingController(rootView: ChartView())
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - Life Cycle
@@ -127,6 +140,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         
         view.backgroundColor = .white
         configureUI()
+        bind()
     }
     
     // MARK: - UIComponents
@@ -165,7 +179,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     }(UILabel())
     
     lazy var moreInfoButton: UIButton = {
-        let mainText = "더 자세한 결과 확인하기"
+        let mainText = "더 자세한 결과 확인하기 👉"
         let subText = "📡 서버 통신이 원활한 경우에만 확인하실 수 있습니다."
         let text = """
         \(mainText)
@@ -191,6 +205,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         $0.setAttributedTitle(attributedString, for: .normal)
         
         $0.layer.backgroundColor = UIColor.green.cgColor
+        $0.layer.borderWidth = 4
         $0.layer.cornerRadius = 12
         return $0
     }(UIButton())
@@ -198,13 +213,6 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
 
 extension ResultViewController {
     func configureUI() {
-        view.addSubview(moreInfoButton)
-        moreInfoButton.snp.makeConstraints {
-            $0.top.equalTo(view.snp.centerY).inset(40)
-            $0.leading.trailing.equalToSuperview().inset(40)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
         view.addSubview(resultImageView)
         resultImageView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview().inset(20)
@@ -214,7 +222,14 @@ extension ResultViewController {
         resultImageView.addSubview(answerLabel)
         answerLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
-        }   
+        }
+        
+        view.addSubview(moreInfoButton)
+        moreInfoButton.snp.makeConstraints {
+            $0.top.equalTo(view.snp.centerY).inset(40)
+            $0.leading.trailing.equalToSuperview().inset(40)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 
