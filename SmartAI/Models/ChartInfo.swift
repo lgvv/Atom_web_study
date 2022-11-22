@@ -7,14 +7,26 @@
 
 import Foundation
 
-class ChartInfo: ObservableObject {
-    let identifier = UUID().uuidString
+class ChartItem: Identifiable {
+    let id = UUID().uuidString
     
-    @Published var localData: [(String, String)] = [] {
+    var bananaClass: String
+    var probability: String
+    
+    init(bananaClass: String, probability: String) {
+        self.bananaClass = bananaClass
+        self.probability = probability
+    }
+}
+
+class ChartInfo: ObservableObject, Identifiable {
+    let id = UUID().uuidString
+    
+    @Published var localData: [ChartItem] = [] {
         didSet { print("🧓🏾 \(localData)")}
     }
     
-    @Published var serverData: [(String, String)] = [] {
+    @Published var serverData: [ChartItem] = [] {
         didSet { print("🧕🏻 \(serverData)")}
     }
 }

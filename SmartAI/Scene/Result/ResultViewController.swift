@@ -85,7 +85,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                 dump(" ❄️: \(descriptions)")
                 let infos = descriptions.map { description in
                     let items = description.split(separator: " ").map { String($0) }
-                    return (items[0], items[1])
+                    return ChartItem(bananaClass: items[0], probability: items[0])
                 }
                 self.chartInfo.localData = infos
                 
@@ -144,31 +144,62 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         return $0
     }(UILabel())
     
-    lazy var chartWrapperView: UIView = {
-        let view = UIHostingController(
-            rootView: ChartView()
-        ).view ?? UIView()
-
-        view.alpha = 0.0
-        view.backgroundColor = .white
-
-        return view
-    }()
+//    lazy var chartWrapperView: UIView = {
+//        let view = UIHostingController(
+//            rootView: ChartView()
+//        ).view ?? UIView()
+//
+//        view.alpha = 0.0
+//        view.backgroundColor = .white
+//
+//        return view
+//    }()
     
     lazy var resultLabel: UILabel = {
         $0.textColor = .black
         $0.textAlignment = .center
         $0.numberOfLines = 0
-        $0.font = .pretendardFont(size: 22, style: .medium)
+        $0.font = .pretendardFont(size: 30, style: .medium)
         
         return $0
     }(UILabel())
+    
+    lazy var moreInfoButton: UIButton = {
+        let mainText = "더 자세한 결과 확인하기"
+        let subText = "📡 서버 통신이 원활한 경우에만 확인하실 수 있습니다."
+        let text = """
+        \(mainText)
+        
+        \(subText)
+        """
+        
+        let mainFont = UIFont.pretendardFont(size: 20, style: .bold)
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(.font,
+                                      value: mainFont,
+                                      range: (text as NSString).range(of: mainText))
+        
+        let subFont = UIFont.pretendardFont(size: 12, style: .regular)
+        attributedString.addAttribute(.font,
+                                      value: subFont,
+                                      range: (text as NSString).range(of: subText))
+        
+        $0.titleLabel?.textAlignment = .center
+        $0.titleLabel?.numberOfLines = 0
+        $0.titleLabel?.text = text
+        $0.setTitleColor(.black, for: .normal)
+        $0.setAttributedTitle(attributedString, for: .normal)
+        
+        $0.layer.backgroundColor = UIColor.green.cgColor
+        $0.layer.cornerRadius = 12
+        return $0
+    }(UIButton())
 }
 
 extension ResultViewController {
     func configureUI() {
-        view.addSubview(chartWrapperView)
-        chartWrapperView.snp.makeConstraints {
+        view.addSubview(moreInfoButton)
+        moreInfoButton.snp.makeConstraints {
             $0.top.equalTo(view.snp.centerY).inset(40)
             $0.leading.trailing.equalToSuperview().inset(40)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -183,7 +214,7 @@ extension ResultViewController {
         resultImageView.addSubview(answerLabel)
         answerLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
-        }
+        }   
     }
 }
 
@@ -194,11 +225,11 @@ extension ResultViewController: UISheetPresentationControllerDelegate {
         switch type {
         case .medium:
             UIView.animate(withDuration: 0.3) {
-                self.chartWrapperView.alpha = 0.0
+                self.moreInfoButton.alpha = 0.0
             }
         case .large:
             UIView.animate(withDuration: 0.3) {
-                self.chartWrapperView.alpha = 1.0
+                self.moreInfoButton.alpha = 1.0
             }
         default: assert(true ,"지원하지 않는 옵션입니다")
         }
