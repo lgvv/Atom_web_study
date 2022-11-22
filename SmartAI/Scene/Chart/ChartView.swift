@@ -8,39 +8,55 @@
 import SwiftUI
 import Charts
 
-struct MountPrice: Identifiable {
-    var id = UUID()
-    var mount: String
-    var value: Double
+struct SalesSummary: Identifiable {
+    var id: String = UUID().uuidString
+    
+    var weekday: String
+    var sales: Int
 }
 
+let sfData: [SalesSummary] = [
+    .init(weekday: "안녕", sales: 100),
+    .init(weekday: "가방", sales: 150),
+    .init(weekday: "옷", sales: 50)
+]
+
+let cuData: [SalesSummary] = [
+    .init(weekday: "안녕", sales: 50),
+    .init(weekday: "가방", sales: 100),
+    .init(weekday: "옷", sales: 150)
+]
+
+
+struct Series: Identifiable {
+    let city: String
+    let sales: [SalesSummary]
+    
+    var id: String { city }
+}
+
+let seriesData: [Series] = [
+    .init(city: "다림쥐네 집", sales: sfData),
+    .init(city: "씨유 집", sales: cuData)
+]
+
 struct ChartView: View {
-    
-    let data: [MountPrice] = [
-        MountPrice(mount: "jan/22", value: 5),
-        MountPrice(mount: "feb/22", value: 4),
-        MountPrice(mount: "mar/22", value: 7),
-        MountPrice(mount: "apr/22", value: 15),
-        MountPrice(mount: "may/22", value: 14),
-        MountPrice(mount: "jun/22", value: 27),
-        MountPrice(mount: "jul/22", value: 27)
-    ]
-    
     var body: some View {
-        List {
-            Chart(data) {
+        Chart(seriesData) { series in
+            ForEach(series.sales) { element in
                 LineMark(
-                    x: .value("Mount", $0.mount),
-                    y: .value("Value", $0.value)
+                    x: .value("Day", element.weekday),
+                    y: .value("Sales", element.sales)
                 )
+                .foregroundStyle(by: .value("City", series.city))
+                
                 PointMark(
-                    x: .value("Mount", $0.mount),
-                    y: .value("Value", $0.value)
+                    x: .value("Day", element.weekday),
+                    y: .value("Sales", element.sales)
                 )
+                .foregroundStyle(by: .value("City", series.city))
+                .symbol(by: .value("City", series.city))
             }
-            .background(Color.red)
-            .frame(height: 250)
         }
-        .background(Color.green)
     }
 }
