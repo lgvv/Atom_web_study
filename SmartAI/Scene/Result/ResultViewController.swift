@@ -149,10 +149,11 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     func didTapMoreInfoButton(bananaData: [ChartInfo]) {
         print("didTapImageView")
         
-        self.delegate?.didTapMoreInfoButton(bananaData: bananaData)
-//        let chartView = ChartView(bananaData: bananaData)
-//        let vc = UIHostingController(rootView: chartView)
-//        self.navigationController?.pushViewController(vc, animated: true)
+        // BUGFIX: - 🚨 코디네이터 delegate가 전달이 안됩니다.
+//        self.delegate?.didTapMoreInfoButton(bananaData: bananaData)
+        let chartView = ChartView(bananaData: bananaData)
+        let vc = UIHostingController(rootView: chartView)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - Life Cycle
@@ -217,6 +218,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         $0.layer.backgroundColor = UIColor.green.cgColor
         $0.layer.borderWidth = 4
         $0.layer.cornerRadius = 12
+        $0.alpha = 0.0
         return $0
     }(UIButton())
 }

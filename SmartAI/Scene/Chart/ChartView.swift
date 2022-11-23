@@ -18,6 +18,9 @@ struct ChartView: View {
     
     var body: some View {
         EmptyView()
+        Text("그래프는 2개(CoreML, CNN)\n서버 통신에 문제가 있는 경우 CNN의 생략될 수 있습니다.")
+            .multilineTextAlignment(.center)
+            .foregroundColor(.green)
         
         Chart(bananaData) { banana in
             ForEach(banana.bananas) { element in
