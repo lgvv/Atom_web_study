@@ -20,6 +20,14 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     var disposeBag = DisposeBag()
     var delegate: ResultViewControllerProtocol?
     
+    // MARK: - Properties
+    /** 로컬 바나나 정보 */ var localBananaInfo: ChartInfo?
+    /** 서버 바나나 정보 */ var serverBananaInfo: ChartInfo?
+    var bananaData: [ChartInfo] = [
+//        .init(type: "로컬", bananas: localBananaInfo),
+//        .init(type: "서버", bananas: serverBananaInfo)
+    ]
+
     var image: UIImage? {
         // NOTE: - MVVM 리팩토링 고민. 할게 너무 많아요 근데 ㅠㅠ
         didSet {
@@ -30,13 +38,20 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                     switch result {
                     case .success(let banana):
                         self.answerLabel.text = banana.bananaClasses[banana.argmax]
-                        var resultText: String = ""
+                        var infos: [BananaChartInfo] = []
+                        
                         banana.bananaClasses.forEach { key, value in
                             if let probability = banana.probability[key] {
-                                resultText += String(format: "%.2f %@\n", probability, value)
+                                let string = String(format: "%.2f %@\n", probability, value)
+                                let items = string.split(separator: " ").map { String($0) }
+                                
+                                let info = BananaChartInfo(name: items[0], probability: items[1])
+                                infos.append(info)
                             }
                         }
-                        dump("☃️ \(resultText)")
+                        
+                        self.bananaData.append(.init(type: "CNN", bananas: infos))
+                        
                     case .failure(let error):
                         print("🚨 \(error.localizedDescription)")
                     }
@@ -72,7 +87,6 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
             moreInfoButton.rx.tap
                 .withUnretained(self)
                 .bind { this, _ in this.didTapMoreInfoButton() }
-            
         }
     }
     
@@ -95,10 +109,13 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                     return String(format: "%.2f %@", classification.confidence, classification.identifier)
                 }
                 dump(" ❄️: \(descriptions)")
-//                let infos = descriptions.map { description in
-//                    let items = description.split(separator: " ").map { String($0) }
-//                    return ChartItem(bananaClass: items[0], probability: items[0])
-//                }
+                
+                let infos = descriptions.map { description in
+                    let items = description.split(separator: " ").map { String($0) }
+                    return BananaChartInfo(name: items[0], probability: items[1])
+                }
+                
+                self.bananaData.append(.init(type: "CoreML", bananas: infos))
                 
                 self.resultLabel.text = descriptions.joined(separator: "\n")
                 self.answerLabel.text = classifications.prefix(1)
@@ -129,7 +146,9 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     
     func didTapMoreInfoButton() {
         print("didTapImageView")
-        let vc = UIHostingController(rootView: ChartView())
+        
+        let chartView = ChartView(bananaData: bananaData)
+        let vc = UIHostingController(rootView: chartView)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -156,17 +175,6 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         
         return $0
     }(UILabel())
-    
-//    lazy var chartWrapperView: UIView = {
-//        let view = UIHostingController(
-//            rootView: ChartView()
-//        ).view ?? UIView()
-//
-//        view.alpha = 0.0
-//        view.backgroundColor = .white
-//
-//        return view
-//    }()
     
     lazy var resultLabel: UILabel = {
         $0.textColor = .black

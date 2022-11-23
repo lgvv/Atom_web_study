@@ -50,9 +50,9 @@ class AppCoordinator: Coordinator, CameraCoordinatorDelegate {
     }
     
     func showChartView() {
-        let vc = UIHostingController(rootView: ChartView())
+//        let vc = UIHostingController(rootView: ChartView())
         
-        navigationController.pushViewController(vc, animated: true)
+//        navigationController.pushViewController(vc, animated: true)
     }
     
     // MARK: - CameraCoordinatorDelegate
