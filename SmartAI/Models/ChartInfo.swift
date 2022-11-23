@@ -9,10 +9,10 @@ import Foundation
 
 // MARK: - 바나나 차트
 struct BananaChartInfo: Identifiable {
-    var id = UUID().uuidString
+    let id = UUID().uuidString
     
-    /**바나나 이름 */ var name: String
-    /** 확률 */ var probability: String
+    /**바나나 이름 */ let name: String
+    /** 확률 */ let probability: String
 }
 
 struct ChartInfo: Identifiable {

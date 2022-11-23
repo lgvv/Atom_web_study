@@ -31,7 +31,6 @@ class ResultCoordinator: Coordinator, ResultViewControllerProtocol {
     
     // MARK: - ResultViewControllerProtocol
     func didTapMoreInfoButton(bananaData: [ChartInfo]) {
-        print("didTapMoreInfo")
         self.delegate?.didTapMoreInfo(for: bananaData, self)
     }
     

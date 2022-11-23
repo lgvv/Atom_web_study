@@ -23,10 +23,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
     // MARK: - Properties
     /** 로컬 바나나 정보 */ var localBananaInfo: ChartInfo?
     /** 서버 바나나 정보 */ var serverBananaInfo: ChartInfo?
-    var bananaData: [ChartInfo] = [
-//        .init(type: "로컬", bananas: localBananaInfo),
-//        .init(type: "서버", bananas: serverBananaInfo)
-    ]
+    var bananaData: [ChartInfo] = []
 
     var image: UIImage? {
         // NOTE: - MVVM 리팩토링 고민. 할게 너무 많아요 근데 ㅠㅠ

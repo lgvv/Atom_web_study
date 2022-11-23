@@ -19,7 +19,7 @@
 		B1DE443D292A808700B18401 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DE443C292A808600B18401 /* APIManager.swift */; };
 		B1DE4440292A80A300B18401 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B1DE443F292A80A300B18401 /* Alamofire */; };
 		B1DE4443292A822800B18401 /* Banana.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DE4442292A822800B18401 /* Banana.swift */; };
-		B1DE4447292A82AD00B18401 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DE4446292A82AD00B18401 /* NetworkManager.swift */; };
+		B1DE4447292A82AD00B18401 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DE4446292A82AD00B18401 /* NetworkMonitor.swift */; };
 		B1EED76829266015004A65BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EED76729266015004A65BC /* AppDelegate.swift */; };
 		B1EED76A29266015004A65BC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EED76929266015004A65BC /* SceneDelegate.swift */; };
 		B1EED77129266017004A65BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1EED77029266017004A65BC /* Assets.xcassets */; };
@@ -55,7 +55,7 @@
 		B1DE443A292A2F2200B18401 /* ResultCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCoordinator.swift; sourceTree = "<group>"; };
 		B1DE443C292A808600B18401 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		B1DE4442292A822800B18401 /* Banana.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banana.swift; sourceTree = "<group>"; };
-		B1DE4446292A82AD00B18401 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		B1DE4446292A82AD00B18401 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		B1EED76429266015004A65BC /* SmartAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1EED76729266015004A65BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1EED76929266015004A65BC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				B1DE443C292A808600B18401 /* APIManager.swift */,
-				B1DE4446292A82AD00B18401 /* NetworkManager.swift */,
+				B1DE4446292A82AD00B18401 /* NetworkMonitor.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -340,7 +340,7 @@
 				B1DE443B292A2F2200B18401 /* ResultCoordinator.swift in Sources */,
 				B1DE443D292A808700B18401 /* APIManager.swift in Sources */,
 				B1C55E58292B6468004A0021 /* ChartView.swift in Sources */,
-				B1DE4447292A82AD00B18401 /* NetworkManager.swift in Sources */,
+				B1DE4447292A82AD00B18401 /* NetworkMonitor.swift in Sources */,
 				B1C106DE2928CAA3009BF573 /* BananaClassification.mlmodel in Sources */,
 				B1F46DFC2927C62E009C7C9B /* ResultViewController.swift in Sources */,
 			);

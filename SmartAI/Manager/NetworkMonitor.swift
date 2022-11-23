@@ -34,11 +34,8 @@ final class NetworkMonitor {
             self?.isConnected = path.status == .satisfied
             self?.getConenctionType(path)
             
-            if self?.isConnected == true {
-                print("연결이된 상태임!")
-            } else {
-                print("연결 안된 상태임!")
-            }
+            if self?.isConnected == true { print("📡 연결이된 상태임!") }
+            else { print("📡 연결 안된 상태임!") }
         }
     }
     
