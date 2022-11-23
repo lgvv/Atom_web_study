@@ -15,7 +15,7 @@ protocol Coordinator: AnyObject {
 }
 
 // 2. 앱 코디네이터를 생성합니다.
-class AppCoordinator: Coordinator, CameraCoordinatorDelegate {
+final class AppCoordinator: Coordinator {
     
     var childCoordinators: [Coordinator] = []
     private var navigationController: UINavigationController!
@@ -49,17 +49,24 @@ class AppCoordinator: Coordinator, CameraCoordinatorDelegate {
         navigationController.present(vc, animated: true)
     }
     
-    func showChartView() {
-//        let vc = UIHostingController(rootView: ChartView())
-        
-//        navigationController.pushViewController(vc, animated: true)
+    func showChartView(bananaData: [ChartInfo]) {
+        let chartView = ChartView(bananaData: bananaData)
+        let vc = UIHostingController(rootView: chartView)
+        navigationController.pushViewController(vc, animated: true)
     }
-    
-    // MARK: - CameraCoordinatorDelegate
+}
+
+extension AppCoordinator: CameraCoordinatorDelegate {
     func didCapture(for image: UIImage, _ coordinator: CameraCoordinator) {
         self.childCoordinators = self.childCoordinators.filter { $0 !== coordinator }
         self.showResultViewController(image: image)
     }
-    
 }
 
+extension AppCoordinator: ResultCoordinatorDelegate {
+    func didTapMoreInfo(for bananaData: [ChartInfo], _ coordinator: ResultCoordinator) {
+        let chartView = ChartView(bananaData: bananaData)
+        let vc = UIHostingController(rootView: chartView)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}

@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 
 protocol ResultViewControllerProtocol {
-    func didTapMoreInfoButton()
+    func didTapMoreInfoButton(bananaData: [ChartInfo])
 }
 
 class ResultViewController: UIViewController, ResultViewControllerProtocol {
@@ -86,7 +86,9 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         disposeBag.insert {
             moreInfoButton.rx.tap
                 .withUnretained(self)
-                .bind { this, _ in this.didTapMoreInfoButton() }
+                .bind { this, _ in
+                    this.didTapMoreInfoButton(bananaData: this.bananaData)
+                }
         }
     }
     
@@ -144,12 +146,13 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         }
     }
     
-    func didTapMoreInfoButton() {
+    func didTapMoreInfoButton(bananaData: [ChartInfo]) {
         print("didTapImageView")
         
-        let chartView = ChartView(bananaData: bananaData)
-        let vc = UIHostingController(rootView: chartView)
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.delegate?.didTapMoreInfoButton(bananaData: bananaData)
+//        let chartView = ChartView(bananaData: bananaData)
+//        let vc = UIHostingController(rootView: chartView)
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - Life Cycle

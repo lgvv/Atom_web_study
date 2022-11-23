@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ResultCoordinatorDelegate {
-    func didSelectedImage(_ coordinator: ResultCoordinator)
+    func didTapMoreInfo(for bananaData: [ChartInfo], _ coordinator: ResultCoordinator)
 }
 
 class ResultCoordinator: Coordinator, ResultViewControllerProtocol {
@@ -25,12 +25,14 @@ class ResultCoordinator: Coordinator, ResultViewControllerProtocol {
     func start() {
         let viewController = ResultViewController()
         viewController.delegate = self
+        
         self.navigationController.viewControllers = [viewController]
     }
     
     // MARK: - ResultViewControllerProtocol
-    func didTapMoreInfoButton() {
-        self.delegate?.didSelectedImage(self)
+    func didTapMoreInfoButton(bananaData: [ChartInfo]) {
+        print("didTapMoreInfo")
+        self.delegate?.didTapMoreInfo(for: bananaData, self)
     }
     
 }
