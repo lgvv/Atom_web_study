@@ -33,7 +33,7 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                         var resultText: String = ""
                         banana.bananaClasses.forEach { key, value in
                             if let probability = banana.probability[key] {
-                                resultText += String(format: "  (%.2f) %@\n", probability, value)
+                                resultText += String(format: "%.2f %@\n", probability, value)
                             }
                         }
                         dump("☃️ \(resultText)")
@@ -92,13 +92,13 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
                 let classifications = classifications.prefix(4)
                 dump("💕classifications \(classifications)")
                 let descriptions = classifications.map { classification in
-                    return String(format: "(%.2f) %@", classification.confidence, classification.identifier)
+                    return String(format: "%.2f %@", classification.confidence, classification.identifier)
                 }
                 dump(" ❄️: \(descriptions)")
-                let infos = descriptions.map { description in
-                    let items = description.split(separator: " ").map { String($0) }
-                    return ChartItem(bananaClass: items[0], probability: items[0])
-                }
+//                let infos = descriptions.map { description in
+//                    let items = description.split(separator: " ").map { String($0) }
+//                    return ChartItem(bananaClass: items[0], probability: items[0])
+//                }
                 
                 self.resultLabel.text = descriptions.joined(separator: "\n")
                 self.answerLabel.text = classifications.prefix(1)
@@ -212,6 +212,13 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
 
 extension ResultViewController {
     func configureUI() {
+        view.addSubview(moreInfoButton)
+        moreInfoButton.snp.makeConstraints {
+            $0.top.equalTo(view.snp.centerY).inset(40)
+            $0.leading.trailing.equalToSuperview().inset(40)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         view.addSubview(resultImageView)
         resultImageView.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview().inset(20)
@@ -221,13 +228,6 @@ extension ResultViewController {
         resultImageView.addSubview(answerLabel)
         answerLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
-        }
-        
-        view.addSubview(moreInfoButton)
-        moreInfoButton.snp.makeConstraints {
-            $0.top.equalTo(view.snp.centerY).inset(40)
-            $0.leading.trailing.equalToSuperview().inset(40)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }

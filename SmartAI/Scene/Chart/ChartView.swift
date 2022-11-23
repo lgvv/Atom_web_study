@@ -40,30 +40,61 @@ let seriesData: [Series] = [
     .init(city: "씨유 집", sales: cuData)
 ]
 
+// MARK: - 바나나 차트
+struct BananaChartInfo: Identifiable {
+    var id = UUID().uuidString
+    
+    /**바나나 이름 */ var name: String
+    /** 확률 */ var probability: String
+}
+
+let localBananaInfo: [BananaChartInfo] = [
+    .init(name: "1", probability: "30"),
+    .init(name: "2", probability: "10"),
+    .init(name: "3", probability: "20"),
+    .init(name: "4", probability: "40")
+]
+
+let serverBananaInfo: [BananaChartInfo] = [
+    .init(name: "1", probability: "20"),
+    .init(name: "2", probability: "30"),
+    .init(name: "3", probability: "40"),
+    .init(name: "4", probability: "10")
+]
+
+struct ChartInfo: Identifiable {
+    let type: String
+    let bananas: [BananaChartInfo]
+    
+    var id: String { type }
+}
+
 struct ChartView: View {
-    
-    
+
+    var bananaData: [ChartInfo] = [
+        .init(type: "로컬", bananas: localBananaInfo),
+        .init(type: "서버", bananas: serverBananaInfo)
+    ]
     
     var body: some View {
         EmptyView()
         
-        Chart(seriesData) { series in
-            ForEach(series.sales) { element in
+        Chart(bananaData) { banana in
+            ForEach(banana.bananas) { element in
                 LineMark(
-                    x: .value("Day", element.weekday),
-                    y: .value("Sales", element.sales)
+                    x: .value("이름", element.name),
+                    y: .value("확률", element.probability)
                 )
-                .foregroundStyle(by: .value("City", series.city))
+                .foregroundStyle(by: .value("타입", banana.type))
                 
                 PointMark(
-                    x: .value("Day", element.weekday),
-                    y: .value("Sales", element.sales)
+                    x: .value("이름", element.name),
+                    y: .value("확률", element.probability)
                 )
-                .foregroundStyle(by: .value("City", series.city))
-                .symbol(by: .value("City", series.city))
+                .foregroundStyle(by: .value("타입", banana.type))
+                .symbol(by: .value("심볼", banana.type))
             }
         }
-        .frame(height: 300)
         
         EmptyView()
     }
