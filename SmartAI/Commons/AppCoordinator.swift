@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 // 1. 코디네이터 프로토콜을 졍의합니다.
 protocol Coordinator: AnyObject {
@@ -36,15 +37,22 @@ class AppCoordinator: Coordinator, CameraCoordinatorDelegate {
     }
     
     func showResultViewController(image: UIImage) {
-        let vc = ResultViewController()
-        vc.image = image
+        let resultViewController = ResultViewController()
+        resultViewController.image = image
+        let vc = UINavigationController(rootViewController: resultViewController)
         
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
-            sheet.delegate = vc 
+            sheet.delegate = resultViewController 
         }
         
         navigationController.present(vc, animated: true)
+    }
+    
+    func showChartView() {
+        let vc = UIHostingController(rootView: ChartView())
+        
+        navigationController.pushViewController(vc, animated: true)
     }
     
     // MARK: - CameraCoordinatorDelegate

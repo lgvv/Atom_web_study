@@ -24,24 +24,24 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         // NOTE: - MVVM 리팩토링 고민. 할게 너무 많아요 근데 ㅠㅠ
         didSet {
             guard let image else { return }
-//            // NOTE: - 서버에서 결과가 내려오는데 시간이 오래걸림 (테스트 결과 적어도 5초 이상)
-//            if NetworkMonitor.shared.isConnected {
-//                APIManager.shared.uploadImage(for: image) { result in
-//                    switch result {
-//                    case .success(let banana):
-//                        self.answerLabel.text = banana.bananaClasses[banana.argmax]
-//                        var resultText: String = ""
-//                        banana.bananaClasses.forEach { key, value in
-//                            if let probability = banana.probability[key] {
-//                                resultText += String(format: "  (%.2f) %@\n", probability, value)
-//                            }
-//                        }
-//                        dump("☃️ \(resultText)")
-//                    case .failure(let error):
-//                        break
-//                    }
-//                }
-//            }
+            // NOTE: - 서버에서 결과가 내려오는데 시간이 오래걸림 (테스트 결과 적어도 5초 이상)
+            if NetworkMonitor.shared.isConnected {
+                APIManager.shared.uploadImage(for: image) { result in
+                    switch result {
+                    case .success(let banana):
+                        self.answerLabel.text = banana.bananaClasses[banana.argmax]
+                        var resultText: String = ""
+                        banana.bananaClasses.forEach { key, value in
+                            if let probability = banana.probability[key] {
+                                resultText += String(format: "  (%.2f) %@\n", probability, value)
+                            }
+                        }
+                        dump("☃️ \(resultText)")
+                    case .failure(let error):
+                        print("🚨 \(error.localizedDescription)")
+                    }
+                }
+            }
             
             self.updateClassifications(for: image)
             self.resultImageView.image = image
@@ -71,9 +71,8 @@ class ResultViewController: UIViewController, ResultViewControllerProtocol {
         disposeBag.insert {
             moreInfoButton.rx.tap
                 .withUnretained(self)
-                .bind { this, _ in
-                    this.didTapMoreInfoButton()
-                }
+                .bind { this, _ in this.didTapMoreInfoButton() }
+            
         }
     }
     

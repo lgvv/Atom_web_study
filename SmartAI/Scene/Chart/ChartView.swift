@@ -41,25 +41,16 @@ let seriesData: [Series] = [
 ]
 
 struct ChartView: View {
-    @ObservedObject var chartInfo = ChartInfo() {
-        didSet { print("🧍🏻 \(chartInfo)")}
-    }
+    
+    
     
     var body: some View {
-        Chart { 
-            ForEach(chartInfo.localData) { local in
-                LineMark(
-                    x: .value("Day", local.bananaClass),
-                    y: .value("Sales", local.probability)
-                )
-                .foregroundStyle(by: .value("City", local.id))
-            }
-        }
+        EmptyView()
         
         Chart(seriesData) { series in
             ForEach(series.sales) { element in
                 LineMark(
-                    x: .value("ss", element.weekday),
+                    x: .value("Day", element.weekday),
                     y: .value("Sales", element.sales)
                 )
                 .foregroundStyle(by: .value("City", series.city))
@@ -72,5 +63,8 @@ struct ChartView: View {
                 .symbol(by: .value("City", series.city))
             }
         }
+        .frame(height: 300)
+        
+        EmptyView()
     }
 }
