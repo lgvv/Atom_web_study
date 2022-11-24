@@ -120,11 +120,15 @@
 		B1CAE088292F441500ADBDE6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B1CAE086292F43C700ADBDE6 /* MainImage.png */,
-				B1CAE082292F428C00ADBDE6 /* UnConnectedServer.gif */,
-				B1CAE080292F419E00ADBDE6 /* ConnectedServer.gif */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		B1CAE089292F44D200ADBDE6 /* ResourceFiles */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ResourceFiles;
 			sourceTree = "<group>";
 		};
 		B1DE4435292A174700B18401 /* Camera */ = {
@@ -174,7 +178,11 @@
 		B1EED75B29266015004A65BC = {
 			isa = PBXGroup;
 			children = (
+				B1CAE089292F44D200ADBDE6 /* ResourceFiles */,
 				B1CAE084292F42BF00ADBDE6 /* README.md */,
+				B1CAE086292F43C700ADBDE6 /* MainImage.png */,
+				B1CAE082292F428C00ADBDE6 /* UnConnectedServer.gif */,
+				B1CAE080292F419E00ADBDE6 /* ConnectedServer.gif */,
 				B1CAE088292F441500ADBDE6 /* Resources */,
 				B1EED76629266015004A65BC /* SmartAI */,
 				B1EED76529266015004A65BC /* Products */,
