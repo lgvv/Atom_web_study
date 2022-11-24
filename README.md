@@ -3,4 +3,4 @@
 ### 스마트 물류 구축을 위한 AI(CoreML, CNN)기반 신선식품 품질 분류 시스템
 
 
-![](./Resources/MainImage.png)
+![](./ResourceFiles/MainImage.png)
