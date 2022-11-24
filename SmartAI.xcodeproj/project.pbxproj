@@ -484,6 +484,8 @@
 				DEVELOPMENT_TEAM = 38PD5AHVVF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SmartAI/Supporting Files/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "이걸 작성하지 않아도 크래시가 날거에요.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "이걸 작성하지 않아도 크래시가 나는군요! 신기하네요!";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -513,6 +515,8 @@
 				DEVELOPMENT_TEAM = 38PD5AHVVF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SmartAI/Supporting Files/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "이걸 작성하지 않아도 크래시가 날거에요.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "이걸 작성하지 않아도 크래시가 나는군요! 신기하네요!";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
