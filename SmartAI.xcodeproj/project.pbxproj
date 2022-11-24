@@ -127,6 +127,9 @@
 		B1CAE089292F44D200ADBDE6 /* ResourceFiles */ = {
 			isa = PBXGroup;
 			children = (
+				B1CAE086292F43C700ADBDE6 /* MainImage.png */,
+				B1CAE082292F428C00ADBDE6 /* UnConnectedServer.gif */,
+				B1CAE080292F419E00ADBDE6 /* ConnectedServer.gif */,
 			);
 			path = ResourceFiles;
 			sourceTree = "<group>";
@@ -180,9 +183,6 @@
 			children = (
 				B1CAE089292F44D200ADBDE6 /* ResourceFiles */,
 				B1CAE084292F42BF00ADBDE6 /* README.md */,
-				B1CAE086292F43C700ADBDE6 /* MainImage.png */,
-				B1CAE082292F428C00ADBDE6 /* UnConnectedServer.gif */,
-				B1CAE080292F419E00ADBDE6 /* ConnectedServer.gif */,
 				B1CAE088292F441500ADBDE6 /* Resources */,
 				B1EED76629266015004A65BC /* SmartAI */,
 				B1EED76529266015004A65BC /* Products */,
