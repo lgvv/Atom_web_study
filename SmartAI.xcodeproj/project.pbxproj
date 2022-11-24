@@ -12,6 +12,10 @@
 		B1C106E12928D416009BF573 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C106E02928D416009BF573 /* UIViewController+.swift */; };
 		B1C55E56292B6294004A0021 /* ServerUrlString.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C55E55292B6294004A0021 /* ServerUrlString.swift */; };
 		B1C55E58292B6468004A0021 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C55E57292B6468004A0021 /* ChartView.swift */; };
+		B1CAE081292F419E00ADBDE6 /* ConnectedServer.gif in Resources */ = {isa = PBXBuildFile; fileRef = B1CAE080292F419E00ADBDE6 /* ConnectedServer.gif */; };
+		B1CAE083292F428C00ADBDE6 /* UnConnectedServer.gif in Resources */ = {isa = PBXBuildFile; fileRef = B1CAE082292F428C00ADBDE6 /* UnConnectedServer.gif */; };
+		B1CAE085292F42BF00ADBDE6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B1CAE084292F42BF00ADBDE6 /* README.md */; };
+		B1CAE087292F43C700ADBDE6 /* MainImage.png in Resources */ = {isa = PBXBuildFile; fileRef = B1CAE086292F43C700ADBDE6 /* MainImage.png */; };
 		B1DE4432292A0AAB00B18401 /* CGImagePropertyOrientation+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DE4431292A0AAB00B18401 /* CGImagePropertyOrientation+.swift */; };
 		B1DE4434292A0CBA00B18401 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DE4433292A0CBA00B18401 /* AppCoordinator.swift */; };
 		B1DE4439292A177400B18401 /* CameraCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DE4438292A177400B18401 /* CameraCoordinator.swift */; };
@@ -49,6 +53,10 @@
 		B1C106E02928D416009BF573 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		B1C55E55292B6294004A0021 /* ServerUrlString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerUrlString.swift; sourceTree = "<group>"; };
 		B1C55E57292B6468004A0021 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		B1CAE080292F419E00ADBDE6 /* ConnectedServer.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ConnectedServer.gif; sourceTree = "<group>"; };
+		B1CAE082292F428C00ADBDE6 /* UnConnectedServer.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = UnConnectedServer.gif; sourceTree = "<group>"; };
+		B1CAE084292F42BF00ADBDE6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B1CAE086292F43C700ADBDE6 /* MainImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MainImage.png; sourceTree = "<group>"; };
 		B1DE4431292A0AAB00B18401 /* CGImagePropertyOrientation+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImagePropertyOrientation+.swift"; sourceTree = "<group>"; };
 		B1DE4433292A0CBA00B18401 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		B1DE4438292A177400B18401 /* CameraCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCoordinator.swift; sourceTree = "<group>"; };
@@ -109,6 +117,16 @@
 			path = Chart;
 			sourceTree = "<group>";
 		};
+		B1CAE088292F441500ADBDE6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B1CAE086292F43C700ADBDE6 /* MainImage.png */,
+				B1CAE082292F428C00ADBDE6 /* UnConnectedServer.gif */,
+				B1CAE080292F419E00ADBDE6 /* ConnectedServer.gif */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		B1DE4435292A174700B18401 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +174,8 @@
 		B1EED75B29266015004A65BC = {
 			isa = PBXGroup;
 			children = (
+				B1CAE084292F42BF00ADBDE6 /* README.md */,
+				B1CAE088292F441500ADBDE6 /* Resources */,
 				B1EED76629266015004A65BC /* SmartAI */,
 				B1EED76529266015004A65BC /* Products */,
 			);
@@ -309,9 +329,13 @@
 				B1F46DF52927C0CA009C7C9B /* Pretendard-Bold.otf in Resources */,
 				B1EED77429266017004A65BC /* LaunchScreen.storyboard in Resources */,
 				B1F46DF22927C0CA009C7C9B /* Pretendard-ExtraBold.otf in Resources */,
+				B1CAE085292F42BF00ADBDE6 /* README.md in Resources */,
 				B1F46DF32927C0CA009C7C9B /* Pretendard-Thin.otf in Resources */,
 				B1F46DF02927C0CA009C7C9B /* Pretendard-Regular.otf in Resources */,
+				B1CAE083292F428C00ADBDE6 /* UnConnectedServer.gif in Resources */,
 				B1F46DF12927C0CA009C7C9B /* Pretendard-SemiBold.otf in Resources */,
+				B1CAE081292F419E00ADBDE6 /* ConnectedServer.gif in Resources */,
+				B1CAE087292F43C700ADBDE6 /* MainImage.png in Resources */,
 				B1EED77129266017004A65BC /* Assets.xcassets in Resources */,
 				B1F46DEF2927C0CA009C7C9B /* Pretendard-Medium.otf in Resources */,
 				B1F46DF42927C0CA009C7C9B /* Pretendard-Light.otf in Resources */,
