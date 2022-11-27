@@ -21,6 +21,7 @@
  - AVFoundation
  - Chart(SwiftUI)
  - Coordinator Pattern
+ - NSAttributedString
  - NWPathMonitor
  - MVC
  - Alamofire(multipart/form-data), RxSwift, RxCoaoa, SnapKit
